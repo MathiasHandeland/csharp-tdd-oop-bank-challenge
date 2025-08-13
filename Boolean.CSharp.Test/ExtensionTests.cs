@@ -45,10 +45,32 @@ namespace Boolean.CSharp.Test
             CurrentAccount currentAccount = new CurrentAccount("Viljar Vevatne", "123-555-7760", BankBranch.Trondheim);
 
             currentAccount.RequestOverdraft(500m);
-            Assert.That(currentAccount.OverdraftLimit, Is.EqualTo(500m));
+            currentAccount.ApproveOverdraft();
             Assert.DoesNotThrow(() => currentAccount.Withdraw(500)); // should not throw as overdraft of 500 is allowed
             Assert.Throws<ArgumentException>(() => currentAccount.RequestOverdraft(-100m)); // requesting overdraft with negative amount should throw exception
             Assert.Throws<InvalidOperationException>(() => currentAccount.Withdraw(501)); // requesting overdraft of 500 and trying to withdraw 501 should throw exception
+        }
+
+        [Test] // extention, user story 4. overdrafts can be approved
+        public void OverdraftIsApproved()
+        {
+            CurrentAccount currentAccount = new CurrentAccount("Luis Nani", "444-555-7777", BankBranch.Bergen);
+
+            currentAccount.RequestOverdraft(500m); // customer requests overdraft
+            currentAccount.ApproveOverdraft(); // the manager approves the requested overdraft
+            Assert.DoesNotThrow(() => currentAccount.Withdraw(500)); // should not throw as overdraft of 500 is allowed because limit is set to 500
+            Assert.That(currentAccount.OverdraftLimit, Is.EqualTo(500m));
+        }
+
+        [Test] // extention, user story 4. overdrafts can be rejected
+        public void OverdraftIsRejected()
+        {
+            CurrentAccount currentAccount = new CurrentAccount("Luis Nani", "444-555-7777", BankBranch.Bergen);
+
+            currentAccount.RequestOverdraft(500m); // customer requests overdraft
+            currentAccount.RejectOverdraft(); // manager rejects overdraft
+            Assert.That(currentAccount.OverdraftLimit, Is.EqualTo(0m));
+            Assert.Throws<InvalidOperationException>(() => currentAccount.Withdraw(1));
         }
     }
 }
