@@ -31,7 +31,7 @@ namespace Boolean.CSharp.Test
             Assert.That(savingsAccount.GetPaymentHistory()[2].Amount, Is.EqualTo(-500m));
         }
 
-        [Test] // extention, user story 2. bankaccount should be assosiated with a spesific branch
+        [Test] // extention, user story 2. bankaccounts should be assosiated with a spesific branch
         public void BankAccountIsAssociatedWithBranch()
         {
             SavingsAccount savingsAccount = new SavingsAccount("Nemanja Vidic", "133-555-7760", BankBranch.Trondheim);

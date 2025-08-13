@@ -65,5 +65,7 @@ namespace Boolean.CSharp.Test
             Assert.That(currentAccount.GetPaymentHistory()[2].Amount, Is.EqualTo(-500.00m));
             Assert.Throws<InvalidOperationException>(() => currentAccount.Withdraw(3000.00m)); // Trying to withdraw more than balance
         }
+
+        // check that it is possible to request an overdraft for an bankaccount
     }
 }
