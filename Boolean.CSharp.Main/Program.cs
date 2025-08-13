@@ -7,3 +7,11 @@ CurrentAccount currentAccount = new CurrentAccount
     CustomerName = "Mathias Handeland"
 
 };
+
+SavingsAccount savingsAccount = new SavingsAccount
+{
+    PhoneNumber = "098-765-4321",
+    CustomerName = "John Doe"
+};
+
+Console.WriteLine(savingsAccount.Id);
