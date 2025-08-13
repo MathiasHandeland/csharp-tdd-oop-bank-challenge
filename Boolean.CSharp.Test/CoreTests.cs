@@ -67,7 +67,7 @@ namespace Boolean.CSharp.Test
             currentAccount.Deposit(2000.00m);
             currentAccount.Withdraw(500.00m);
 
-            Assert.That(currentAccount.Balance, Is.EqualTo(2500.00m));
+            Assert.That(currentAccount.GetBalance(), Is.EqualTo(2500.00m));
             Assert.That(currentAccount.GetPaymentHistory().Count, Is.EqualTo(3));
             Assert.That(currentAccount.GetPaymentHistory()[0].Amount, Is.EqualTo(1000.00m));
             Assert.That(currentAccount.GetPaymentHistory()[1].Amount, Is.EqualTo(2000.00m));
