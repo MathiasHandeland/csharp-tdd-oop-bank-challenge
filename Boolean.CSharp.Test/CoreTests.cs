@@ -1,4 +1,4 @@
-﻿using Boolean.CSharp.Main.Abstract;
+﻿using Boolean.CSharp.Main;
 using Boolean.CSharp.Main.Concrete;
 using NUnit.Framework;
 
@@ -11,11 +11,8 @@ namespace Boolean.CSharp.Test
         [Test] // user story 1, current account creation
         public void CreateCurrentAccount()
         {
-            CurrentAccount currentAccount = new CurrentAccount
-            {
-                PhoneNumber = "123-456-7890",
-                CustomerName = "Dimitar Berbatov"
-            };
+            CurrentAccount currentAccount = new CurrentAccount("Dimitar Berbatov", "123-456-7890", BankBranch.Trondheim);
+            
             Assert.IsNotNull(currentAccount);
             Assert.IsNotEmpty(currentAccount.PhoneNumber);
             Assert.IsNotNull(currentAccount.Id);
@@ -23,11 +20,8 @@ namespace Boolean.CSharp.Test
         [Test] // user story 2, savings account creation
         public void CreateSavingsAccount()
         {
-            SavingsAccount savingsAccount = new SavingsAccount
-            {
-                PhoneNumber = "123-456-7190",
-                CustomerName = "Wayne Rooney"
-            };
+            SavingsAccount savingsAccount = new SavingsAccount("Wayne Rooney", "123-456-7190", BankBranch.Stavanger);
+            
             Assert.IsNotNull(savingsAccount);
             Assert.IsNotEmpty(savingsAccount.PhoneNumber);
             Assert.IsNotNull(savingsAccount.Id);
@@ -36,18 +30,18 @@ namespace Boolean.CSharp.Test
         [Test] // user story 1 and 2, cannot create savings account with invalid customer name
         public void CreateSavingsAccountFails()
         {
-            SavingsAccount savingsAccount = new SavingsAccount();
-            Assert.Throws<ArgumentException>(() => savingsAccount.CustomerName = "Ronaldinho");
+            Assert.Throws<ArgumentException>(() =>
+            {
+                // Only one name, should fail and the account cannot be made
+                var savingsAccount = new SavingsAccount("Ronaldinho", "123-456-7190", BankBranch.Stavanger);
+            });
         }
 
         [Test] // user story 3, generate bank statement
         public void PrintBankStatement()
         {
-            CurrentAccount currentAccount = new CurrentAccount
-            {
-                PhoneNumber = "888-456-7890",
-                CustomerName = "Lionel Messi"
-            };
+            CurrentAccount currentAccount = new CurrentAccount("Lionel Messi", "888-456-7890", BankBranch.Oslo);
+            
             currentAccount.Deposit(1000.00m);
             currentAccount.Deposit(2000.00m);
             currentAccount.Withdraw(500.00m);
@@ -58,11 +52,8 @@ namespace Boolean.CSharp.Test
         [Test] // user story 4, bank withdrawal and deposit
         public void WithdrawAndDepositMoney()
         {
-            CurrentAccount currentAccount = new CurrentAccount
-            {
-                PhoneNumber = "888-456-7890",
-                CustomerName = "Zlatko Tripic"
-            };
+            CurrentAccount currentAccount = new CurrentAccount("Zlatko Tripic", "888-456-7890", BankBranch.Stavanger);
+            
             currentAccount.Deposit(1000.00m);
             currentAccount.Deposit(2000.00m);
             currentAccount.Withdraw(500.00m);

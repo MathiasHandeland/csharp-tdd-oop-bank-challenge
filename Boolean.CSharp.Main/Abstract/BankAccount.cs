@@ -9,9 +9,16 @@ namespace Boolean.CSharp.Main.Abstract
 {
     public class BankAccount
     {
-        private string _phoneNumber;
-        private string _customerName;
+        private string _phoneNumber; 
+        private string _customerName; 
         private List<Transaction> _transactions = new List<Transaction>();
+
+        public BankAccount(string customerName, string phoneNumber, BankBranch branch)
+        {
+            CustomerName = customerName;
+            PhoneNumber = phoneNumber;
+            Branch = branch;
+        }
 
         public void Deposit(decimal amount)
         {
@@ -51,6 +58,9 @@ namespace Boolean.CSharp.Main.Abstract
 
         public decimal GetBalance() => _transactions.Sum(t => t.Amount);
         
+
+        public BankBranch Branch { get; set; }
+
 
         public Guid Id { get; set; } = Guid.NewGuid();
         public Guid AccountNumber { get; set; } = Guid.NewGuid();

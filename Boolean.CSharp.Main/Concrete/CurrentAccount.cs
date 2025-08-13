@@ -9,6 +9,9 @@ namespace Boolean.CSharp.Main.Concrete
 {
     public class CurrentAccount : BankAccount
     {
-
+        public CurrentAccount(string customerName, string phoneNumber, BankBranch branch)
+            : base(customerName, phoneNumber, branch)
+        {
+        }
     }
 }

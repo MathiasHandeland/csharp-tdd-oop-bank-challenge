@@ -18,9 +18,8 @@ namespace Boolean.CSharp.Test
         [Test] // extention user story 1, balance should not be stored in memory, but calculated from transaction history
         public void BalanceIsCalculatedFromTransactionHistory()
         {
-            SavingsAccount savingsAccount = new SavingsAccount();
-            savingsAccount.CustomerName = "Cristiano Ronaldo";
-            
+            SavingsAccount savingsAccount = new SavingsAccount("Cristiano Ronaldo", "133-456-7890", BankBranch.Trondheim);
+
             savingsAccount.Deposit(1000m);
             savingsAccount.Deposit(2000m);
             savingsAccount.Withdraw(500m);
@@ -30,6 +29,14 @@ namespace Boolean.CSharp.Test
             Assert.That(savingsAccount.GetPaymentHistory()[0].Amount, Is.EqualTo(1000m));
             Assert.That(savingsAccount.GetPaymentHistory()[1].Amount, Is.EqualTo(2000m));
             Assert.That(savingsAccount.GetPaymentHistory()[2].Amount, Is.EqualTo(-500m));
+        }
+
+        [Test] // extention, user story 2. bankaccount should be assosiated with a spesific branch
+        public void BankAccountIsAssociatedWithBranch()
+        {
+            SavingsAccount savingsAccount = new SavingsAccount("Nemanja Vidic", "133-555-7760", BankBranch.Trondheim);
+
+            Assert.That(savingsAccount.Branch, Is.EqualTo(BankBranch.Trondheim));
         }
     }
 }

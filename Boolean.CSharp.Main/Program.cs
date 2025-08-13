@@ -1,13 +1,8 @@
 ﻿
+using Boolean.CSharp.Main;
 using Boolean.CSharp.Main.Concrete;
 
-CurrentAccount currentAccount = new CurrentAccount
-{
-    PhoneNumber = "123-456-7890",
-    CustomerName = "Mathias Handeland"
-
-};
-
+CurrentAccount currentAccount = new CurrentAccount("Lionel Messi", "123-456-719", BankBranch.Stavanger); 
 
 currentAccount.Deposit(1000.00m);
 currentAccount.Deposit(2000.00m);
