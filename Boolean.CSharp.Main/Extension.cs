@@ -1,4 +1,5 @@
 ﻿
+using Boolean.CSharp.Main.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace Boolean.CSharp.Main
 {
     public class Extension
     {
-        private Core _core;
+        private BankAccount _core;
         public Extension()
         {
-            Core? core = new Core();
+            BankAccount? core = new BankAccount();
         }                      
     }
 }

@@ -1,4 +1,4 @@
-﻿using Boolean.CSharp.Main;
+﻿using Boolean.CSharp.Main.Abstract;
 using NUnit.Framework;
 
 namespace Boolean.CSharp.Test
@@ -6,11 +6,11 @@ namespace Boolean.CSharp.Test
     [TestFixture]
     public class CoreTests
     {
-        private Core _core;
+        private BankAccount _core;
 
         public CoreTests()
         {
-            _core = new Core();
+            _core = new BankAccount();
 
         }
 
