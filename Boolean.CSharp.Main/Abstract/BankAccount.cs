@@ -19,7 +19,7 @@ namespace Boolean.CSharp.Main.Abstract
             PhoneNumber = phoneNumber;
             Branch = branch;
         }
-        public void PrintBankStatement(IPrinter printer) // Print bank statement to the console in a formatted way
+        public void PrintBankStatement(IPrinter printer) // Print bank statement in a formatted way
         {
             var sb = new StringBuilder();
             sb.AppendLine("date       || credit  ||  debit  || balance");

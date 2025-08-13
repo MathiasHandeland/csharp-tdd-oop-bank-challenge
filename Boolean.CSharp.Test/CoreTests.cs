@@ -50,12 +50,13 @@ namespace Boolean.CSharp.Test
         public void PrintBankStatement()
         {
             CurrentAccount currentAccount = new CurrentAccount("Lionel Messi", "888-456-7890", BankBranch.Oslo);
-            
+            ConsolePrinter consolePrinter = new ConsolePrinter();
+
             currentAccount.Deposit(1000.00m);
             currentAccount.Deposit(2000.00m);
             currentAccount.Withdraw(500.00m);
 
-            Assert.DoesNotThrow(() => currentAccount.PrintBankStatement());  
+            Assert.DoesNotThrow(() => currentAccount.PrintBankStatement(consolePrinter));  
         }
 
         [Test] // user story 4, bank withdrawal and deposit
