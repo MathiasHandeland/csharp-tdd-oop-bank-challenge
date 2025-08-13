@@ -8,5 +8,5 @@ currentAccount.Deposit(1000.00m);
 currentAccount.Deposit(2000.00m);
 currentAccount.Withdraw(500.00m);
 
-IPrinter consolePrinter = new ConsolePrinter(); // change to Twilio() to print to sms via twilio
+IPrinter consolePrinter = new ConsolePrinter(); // change to TwilioPrinter() to print to sms via twilio
 currentAccount.PrintBankStatement(consolePrinter);
