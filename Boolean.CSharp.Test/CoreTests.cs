@@ -45,9 +45,14 @@ namespace Boolean.CSharp.Test
         {
             CurrentAccount currentAccount = new CurrentAccount
             {
-                PhoneNumber = "123-456-7890",
+                PhoneNumber = "888-456-7890",
                 CustomerName = "Lionel Messi"
             };
+            currentAccount.Deposit(1000.00m);
+            currentAccount.Deposit(2000.00m);
+            currentAccount.Withdraw(500.00m);
+
+            Assert.DoesNotThrow(() => currentAccount.PrintBankStatement());
         }
 
     }
