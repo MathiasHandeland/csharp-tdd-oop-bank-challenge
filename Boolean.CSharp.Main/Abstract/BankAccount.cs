@@ -83,14 +83,14 @@ namespace Boolean.CSharp.Main.Abstract
 
         public void PrintBankStatement()
         {
-            Console.WriteLine("date       || credit  || debit   || balance");
+            Console.WriteLine("date       || credit  ||  debit  || balance");
 
             foreach (var transaction in _transactions.OrderByDescending(t => t.Date)) // transactions are sorted with the most recent first
             {
                 string date = transaction.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
                 string credit = transaction.Amount > 0 ? transaction.Amount.ToString("F2") : ""; // f2 for two decimal places, credit is a deposit
                 string debit = transaction.Amount < 0 ? Math.Abs(transaction.Amount).ToString("F2") : ""; // debit is a withdrawel
-                string balance = transaction.BalanceAfterTransaction.ToString("F2");
+                string balance = transaction.BalanceAfterTransaction.ToString("F2"); // shows the balance after the transaction
 
                 Console.WriteLine("{0,-10} || {1,7} || {2,7} || {3,6}", date, credit, debit, balance);
             }

@@ -40,7 +40,7 @@ namespace Boolean.CSharp.Test
             Assert.Throws<ArgumentException>(() => savingsAccount.CustomerName = "Ronaldinho");
         }
 
-        [Test] // user story 2, savings account creation
+        [Test] // user story 3, generate bank statement
         public void PrintBankStatement()
         {
             CurrentAccount currentAccount = new CurrentAccount
@@ -53,6 +53,26 @@ namespace Boolean.CSharp.Test
             currentAccount.Withdraw(500.00m);
 
             Assert.DoesNotThrow(() => currentAccount.PrintBankStatement());
+        }
+
+        [Test] // user story 4, bank withdrawal and deposit
+        public void WithdrawAndDepositMoney()
+        {
+            CurrentAccount currentAccount = new CurrentAccount
+            {
+                PhoneNumber = "888-456-7890",
+                CustomerName = "Zlatko Tripic"
+            };
+            currentAccount.Deposit(1000.00m);
+            currentAccount.Deposit(2000.00m);
+            currentAccount.Withdraw(500.00m);
+
+            Assert.That(currentAccount.Balance, Is.EqualTo(2500.00m));
+            Assert.That(currentAccount.GetPaymentHistory().Count, Is.EqualTo(3));
+            Assert.That(currentAccount.GetPaymentHistory()[0].Amount, Is.EqualTo(1000.00m));
+            Assert.That(currentAccount.GetPaymentHistory()[1].Amount, Is.EqualTo(2000.00m));
+            Assert.That(currentAccount.GetPaymentHistory()[2].Amount, Is.EqualTo(-500.00m));
+            Assert.Throws<InvalidOperationException>(() => currentAccount.Withdraw(3000.00m)); // Trying to withdraw more than balance
         }
 
     }
