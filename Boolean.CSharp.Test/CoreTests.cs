@@ -16,7 +16,12 @@ namespace Boolean.CSharp.Test
             Assert.IsNotNull(currentAccount);
             Assert.IsNotEmpty(currentAccount.PhoneNumber);
             Assert.IsNotNull(currentAccount.Id);
+            Assert.That(currentAccount.CustomerName, Is.EqualTo("Dimitar Berbatov"));
+            Assert.That(currentAccount.Branch, Is.EqualTo(BankBranch.Trondheim));
+            Assert.That(currentAccount.GetBalance(), Is.EqualTo(0m));
+            Assert.That(currentAccount.GetPaymentHistory().Count, Is.EqualTo(0));
         }
+
         [Test] // user story 2, savings account creation
         public void CreateSavingsAccount()
         {
@@ -25,6 +30,10 @@ namespace Boolean.CSharp.Test
             Assert.IsNotNull(savingsAccount);
             Assert.IsNotEmpty(savingsAccount.PhoneNumber);
             Assert.IsNotNull(savingsAccount.Id);
+            Assert.That(savingsAccount.CustomerName, Is.EqualTo("Wayne Rooney"));
+            Assert.That(savingsAccount.Branch, Is.EqualTo(BankBranch.Stavanger));
+            Assert.That(savingsAccount.GetBalance(), Is.EqualTo(0m));
+            Assert.That(savingsAccount.GetPaymentHistory().Count, Is.EqualTo(0));
         }
 
         [Test] // user story 1 and 2, cannot create savings account with invalid customer name
@@ -46,26 +55,24 @@ namespace Boolean.CSharp.Test
             currentAccount.Deposit(2000.00m);
             currentAccount.Withdraw(500.00m);
 
-            Assert.DoesNotThrow(() => currentAccount.PrintBankStatement());
+            Assert.DoesNotThrow(() => currentAccount.PrintBankStatement());  
         }
 
         [Test] // user story 4, bank withdrawal and deposit
         public void WithdrawAndDepositMoney()
         {
-            CurrentAccount currentAccount = new CurrentAccount("Zlatko Tripic", "888-456-7890", BankBranch.Stavanger);
-            
-            currentAccount.Deposit(1000.00m);
-            currentAccount.Deposit(2000.00m);
-            currentAccount.Withdraw(500.00m);
+            SavingsAccount savingsAccount = new SavingsAccount("Zlatko Tripic", "888-456-7890", BankBranch.Stavanger);
 
-            Assert.That(currentAccount.GetBalance(), Is.EqualTo(2500.00m));
-            Assert.That(currentAccount.GetPaymentHistory().Count, Is.EqualTo(3));
-            Assert.That(currentAccount.GetPaymentHistory()[0].Amount, Is.EqualTo(1000.00m));
-            Assert.That(currentAccount.GetPaymentHistory()[1].Amount, Is.EqualTo(2000.00m));
-            Assert.That(currentAccount.GetPaymentHistory()[2].Amount, Is.EqualTo(-500.00m));
-            Assert.Throws<InvalidOperationException>(() => currentAccount.Withdraw(3000.00m)); // Trying to withdraw more than balance
+            savingsAccount.Deposit(1000.00m);
+            savingsAccount.Deposit(2000.00m);
+            savingsAccount.Withdraw(500.00m);
+
+            Assert.That(savingsAccount.GetBalance(), Is.EqualTo(2500.00m));
+            Assert.That(savingsAccount.GetPaymentHistory().Count, Is.EqualTo(3));
+            Assert.That(savingsAccount.GetPaymentHistory()[0].Amount, Is.EqualTo(1000.00m));
+            Assert.That(savingsAccount.GetPaymentHistory()[1].Amount, Is.EqualTo(2000.00m));
+            Assert.That(savingsAccount.GetPaymentHistory()[2].Amount, Is.EqualTo(-500.00m));
+            Assert.Throws<InvalidOperationException>(() => savingsAccount.Withdraw(3000.00m)); // Trying to withdraw more than balance
         }
-
-        // check that it is possible to request an overdraft for an bankaccount
     }
 }

@@ -11,9 +11,9 @@ namespace Boolean.CSharp.Main.Abstract
     {
         private string _phoneNumber; 
         private string _customerName; 
-        protected List<Transaction> _transactions = new List<Transaction>(); // protected so it can be accessed by derived classes
+        protected List<Transaction> _transactions = new List<Transaction>(); // protected so it can be accessed by derived classes. Used in CurrentAccount
 
-        public BankAccount(string customerName, string phoneNumber, BankBranch branch)
+        public BankAccount(string customerName, string phoneNumber, BankBranch branch) // params needed to initalize a new bank account
         {
             CustomerName = customerName;
             PhoneNumber = phoneNumber;
@@ -40,7 +40,7 @@ namespace Boolean.CSharp.Main.Abstract
             {
                 throw new ArgumentException("Deposit amount must be greater than zero.");
             }
-            _transactions.Add(new Transaction // Create a new transaction for the deposit and store info of the transaction
+            _transactions.Add(new Transaction // Create a new transaction for the deposit and store all associated info of this transaction
             {
                 Account = AccountNumber,
                 Amount = amount,
@@ -84,7 +84,7 @@ namespace Boolean.CSharp.Main.Abstract
             get => _phoneNumber;
             set
             {
-                // if the does not contain 8 digits, throw an exception
+                // if the phone number does not contain 8 digits, throw an exception
                 if (string.IsNullOrWhiteSpace(value) || value.Count(char.IsDigit) < 8)
                 {
                     throw new ArgumentException("Phone number must contain at least 8 digits");

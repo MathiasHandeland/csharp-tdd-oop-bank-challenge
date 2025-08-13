@@ -29,7 +29,7 @@ namespace Boolean.CSharp.Main.Concrete
             {
                 throw new InvalidOperationException("Overdraft not approved");
             }
-            if (newBalance < -OverdraftLimit)
+            if (newBalance < -OverdraftLimit) 
             {
                 throw new InvalidOperationException("Withdrawal would exceed overdraft limit");
             }
@@ -66,6 +66,5 @@ namespace Boolean.CSharp.Main.Concrete
         }
 
         public decimal OverdraftLimit { get; set; }
-
     }
 }
