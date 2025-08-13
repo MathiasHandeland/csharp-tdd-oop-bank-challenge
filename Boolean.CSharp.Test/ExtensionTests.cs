@@ -38,5 +38,17 @@ namespace Boolean.CSharp.Test
 
             Assert.That(savingsAccount.Branch, Is.EqualTo(BankBranch.Trondheim));
         }
+
+        [Test] // extention, user story 3. overdrafts can be requested
+        public void RequestOverdraft()
+        {
+            CurrentAccount currentAccount = new CurrentAccount("Viljar Vevatne", "123-555-7760", BankBranch.Trondheim);
+
+            currentAccount.RequestOverdraft(500m);
+            Assert.That(currentAccount.OverdraftLimit, Is.EqualTo(500m));
+            Assert.DoesNotThrow(() => currentAccount.Withdraw(500)); // should not throw as overdraft of 500 is allowed
+            Assert.Throws<ArgumentException>(() => currentAccount.RequestOverdraft(-100m)); // requesting overdraft with negative amount should throw exception
+            Assert.Throws<InvalidOperationException>(() => currentAccount.Withdraw(501)); // requesting overdraft of 500 and trying to withdraw 501 should throw exception
+        }
     }
 }

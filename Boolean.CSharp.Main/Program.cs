@@ -1,5 +1,4 @@
-﻿
-using Boolean.CSharp.Main;
+﻿using Boolean.CSharp.Main;
 using Boolean.CSharp.Main.Concrete;
 
 CurrentAccount currentAccount = new CurrentAccount("Lionel Messi", "123-456-719", BankBranch.Stavanger); 

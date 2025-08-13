@@ -11,7 +11,7 @@ namespace Boolean.CSharp.Main.Abstract
     {
         private string _phoneNumber; 
         private string _customerName; 
-        private List<Transaction> _transactions = new List<Transaction>();
+        protected List<Transaction> _transactions = new List<Transaction>(); // protected so it can be accessed by derived classes
 
         public BankAccount(string customerName, string phoneNumber, BankBranch branch)
         {
@@ -49,7 +49,7 @@ namespace Boolean.CSharp.Main.Abstract
             });
         }
 
-        public void Withdraw(decimal amount)
+        public virtual void Withdraw(decimal amount)
         {
             if (amount <= 0)
             {
