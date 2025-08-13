@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Boolean.CSharp.Main.Abstract
 {
-    public class BankAccount
+    public class BankAccount 
     {
         private string _phoneNumber; 
         private string _customerName; 
@@ -19,9 +19,10 @@ namespace Boolean.CSharp.Main.Abstract
             PhoneNumber = phoneNumber;
             Branch = branch;
         }
-        public void PrintBankStatement() // Print bank statement to the console in a formatted way
+        public void PrintBankStatement(IPrinter printer) // Print bank statement to the console in a formatted way
         {
-            Console.WriteLine("date       || credit  ||  debit  || balance");
+            var sb = new StringBuilder();
+            sb.AppendLine("date       || credit  ||  debit  || balance");
 
             foreach (var transaction in _transactions.OrderByDescending(t => t.Date)) // transactions are sorted with the most recent first
             {
@@ -30,8 +31,9 @@ namespace Boolean.CSharp.Main.Abstract
                 string debit = transaction.Amount < 0 ? Math.Abs(transaction.Amount).ToString("F2") : ""; // debit is a withdrawel
                 string balance = transaction.BalanceAfterTransaction.ToString("F2"); // shows the balance after the transaction
 
-                Console.WriteLine("{0,-10} || {1,7} || {2,7} || {3,6}", date, credit, debit, balance);
+                sb.AppendLine($"{date,-10} || {credit,7} || {debit,7} || {balance,6}");
             }
+            printer.Print(sb.ToString()); // Use the Print method from the IPrinter interface to print the statement either to console or sms via twilio
         }
 
         public void Deposit(decimal amount)
