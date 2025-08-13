@@ -33,5 +33,22 @@ namespace Boolean.CSharp.Test
             Assert.IsNotNull(savingsAccount.Id);
         }
 
+        [Test] // user story 1 and 2, cannot create savings account with invalid customer name
+        public void CreateSavingsAccountFails()
+        {
+            SavingsAccount savingsAccount = new SavingsAccount();
+            Assert.Throws<ArgumentException>(() => savingsAccount.CustomerName = "Ronaldinho");
+        }
+
+        [Test] // user story 2, savings account creation
+        public void PrintBankStatement()
+        {
+            CurrentAccount currentAccount = new CurrentAccount
+            {
+                PhoneNumber = "123-456-7890",
+                CustomerName = "Lionel Messi"
+            };
+        }
+
     }
 }
