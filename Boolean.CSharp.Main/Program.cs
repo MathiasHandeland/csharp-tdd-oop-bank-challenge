@@ -8,10 +8,8 @@ CurrentAccount currentAccount = new CurrentAccount
 
 };
 
-SavingsAccount savingsAccount = new SavingsAccount
-{
-    PhoneNumber = "098-765-4321",
-    CustomerName = "John Doe"
-};
+currentAccount.Deposit(1000.00m);
+currentAccount.Deposit(2000.00m);
+currentAccount.Withdraw(500.00m);
 
-Console.WriteLine(savingsAccount.Id);
+currentAccount.PrintBankStatement();

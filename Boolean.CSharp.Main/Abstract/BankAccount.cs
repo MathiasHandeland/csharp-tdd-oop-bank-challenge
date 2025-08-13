@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -8,10 +9,65 @@ namespace Boolean.CSharp.Main.Abstract
 {
     public class BankAccount
     {
+        private string _phoneNumber;
         private string _customerName;
+        private List<Transaction> _transactions = new List<Transaction>();
+
+        public void Deposit(decimal amount)
+        {
+            if (amount <= 0)
+            {
+                throw new ArgumentException("Deposit amount must be greater than zero.");
+            }
+            Balance += amount;
+            _transactions.Add(new Transaction // Create a new transaction for the deposit and store info of the transaction
+            {
+                Account = AccountNumber,
+                Amount = amount,
+                Date = DateTime.Now,
+                BalanceAfterTransaction = Balance // Store the balance after the transaction
+            });
+        }
+
+        public void Withdraw(decimal amount)
+        {
+            if (amount <= 0)
+            {
+                throw new ArgumentException("Withdrawal amount must be greater than zero.");
+            }
+            if (amount > Balance)
+            {
+                throw new InvalidOperationException("Don't have enough money in the account. Please check Balance before withdrawel");
+            }
+            Balance -= amount;
+            _transactions.Add(new Transaction // Create a new transaction for the withdrawal and store info of the transaction
+            {
+                Account = AccountNumber,
+                Amount = -amount, // Negative amount for withdrawal
+                Date = DateTime.Now,
+                BalanceAfterTransaction = Balance // Store the balance after the transaction
+            });
+        }
+
+        public List<Transaction> GetPaymentHistory() => _transactions;
+
+        public decimal Balance { get; set; } = 0; // Initial balance is set to 0
+
         public Guid Id { get; set; } = Guid.NewGuid();
         public Guid AccountNumber { get; set; } = Guid.NewGuid();
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber
+        {
+            get => _phoneNumber;
+            set
+            {
+                // if the does not contain 8 digits, throw an exception
+                if (string.IsNullOrWhiteSpace(value) || value.Count(char.IsDigit) < 8)
+                {
+                    throw new ArgumentException("Phone number must contain at least 8 digits");
+                }
+            }
+        }
+               
         public string CustomerName
         {
             get => _customerName;
@@ -25,5 +81,19 @@ namespace Boolean.CSharp.Main.Abstract
             }
         }
 
+        public void PrintBankStatement()
+        {
+            Console.WriteLine("date       || credit  || debit   || balance");
+
+            foreach (var transaction in _transactions.OrderByDescending(t => t.Date)) // transactions are sorted with the most recent first
+            {
+                string date = transaction.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                string credit = transaction.Amount > 0 ? transaction.Amount.ToString("F2") : ""; // f2 for two decimal places, credit is a deposit
+                string debit = transaction.Amount < 0 ? Math.Abs(transaction.Amount).ToString("F2") : ""; // debit is a withdrawel
+                string balance = transaction.BalanceAfterTransaction.ToString("F2");
+
+                Console.WriteLine("{0,-10} || {1,7} || {2,7} || {3,6}", date, credit, debit, balance);
+            }
+        }
     }
 }
