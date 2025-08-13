@@ -19,13 +19,12 @@ namespace Boolean.CSharp.Main.Abstract
             {
                 throw new ArgumentException("Deposit amount must be greater than zero.");
             }
-            Balance += amount;
             _transactions.Add(new Transaction // Create a new transaction for the deposit and store info of the transaction
             {
                 Account = AccountNumber,
                 Amount = amount,
                 Date = DateTime.Now,
-                BalanceAfterTransaction = Balance // Store the balance after the transaction
+                BalanceAfterTransaction = GetBalance() + amount // Store the balance after the transaction
             });
         }
 
@@ -35,23 +34,23 @@ namespace Boolean.CSharp.Main.Abstract
             {
                 throw new ArgumentException("Withdrawal amount must be greater than zero.");
             }
-            if (amount > Balance)
+            if (GetBalance() < amount)
             {
                 throw new InvalidOperationException("Don't have enough money in the account. Please check Balance before withdrawel");
             }
-            Balance -= amount;
             _transactions.Add(new Transaction // Create a new transaction for the withdrawal and store info of the transaction
             {
                 Account = AccountNumber,
                 Amount = -amount, // Negative amount for withdrawal
                 Date = DateTime.Now,
-                BalanceAfterTransaction = Balance // Store the balance after the transaction
+                BalanceAfterTransaction = GetBalance() - amount // Store the balance after the transaction
             });
         }
 
         public List<Transaction> GetPaymentHistory() => _transactions;
 
-        public decimal Balance { get; set; } = 0; // Initial balance is set to 0
+        public decimal GetBalance() => _transactions.Sum(t => t.Amount);
+        
 
         public Guid Id { get; set; } = Guid.NewGuid();
         public Guid AccountNumber { get; set; } = Guid.NewGuid();
