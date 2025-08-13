@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Boolean.CSharp.Main.Abstract
 {
-    public class BankAccount : IPrinter
+    public class BankAccount
     {
         private string _phoneNumber; 
         private string _customerName; 
@@ -19,7 +19,7 @@ namespace Boolean.CSharp.Main.Abstract
             PhoneNumber = phoneNumber;
             Branch = branch;
         }
-        public void Print() // Print bank statement to the console in a formatted way
+        public void PrintBankStatement() // Print bank statement to the console in a formatted way
         {
             Console.WriteLine("date       || credit  ||  debit  || balance");
 
